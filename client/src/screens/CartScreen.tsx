@@ -33,6 +33,7 @@ export const CartScreen = () => {
     }
 
     const checkOutHandler = () => {
+
         history.push('/signin?redirect=shipping')
     }
 

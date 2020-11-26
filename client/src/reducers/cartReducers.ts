@@ -1,4 +1,5 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from './../constants/cartConstant';
+import { saveShippingAddressDataType } from './../actions/cartActions';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS } from './../constants/cartConstant';
 import { CartActionType } from './../actions/types.d';
 
 export interface cartItemType {
@@ -11,7 +12,8 @@ export interface cartItemType {
 }
 
 export interface cartInitailStateType {
-    cartItems: cartItemType[]
+    cartItems: cartItemType[],
+    shippingAddress: saveShippingAddressDataType,
 }
 
 export const cartInitailState: cartInitailStateType = {
@@ -19,6 +21,7 @@ export const cartInitailState: cartInitailStateType = {
     cartItems: localStorage.getItem("cartItems")
         ? JSON.parse(localStorage.getItem("cartItems") as string)
         : [],
+    shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
 }
 
 
@@ -46,6 +49,12 @@ export const cartReducer = (state = cartInitailState, action: CartActionType) =>
             return {
                 ...state,
                 cartItems: state.cartItems.filter(x => x.product !== action.payload)
+            }
+
+        case CART_SAVE_SHIPPING_ADDRESS:
+            return {
+                ...state,
+                shippingAddress: action.payload
             }
 
         default:

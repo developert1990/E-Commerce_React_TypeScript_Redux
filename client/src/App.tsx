@@ -8,6 +8,7 @@ import { initialAppStateType } from './store';
 import { SigninScreen } from './screens/SigninScreen';
 import { RegisterScreen } from './screens/RegisterScreen';
 import { signout } from './actions/userActions';
+import { ShippingAddressScreen } from './screens/ShippingAddressScreen';
 
 function App() {
 
@@ -58,6 +59,7 @@ function App() {
             <Route exact path="/" component={HomeScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
+            <Route path="/shipping" component={ShippingAddressScreen} />
             <div>
 
             </div>

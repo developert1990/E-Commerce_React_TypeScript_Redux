@@ -23,6 +23,7 @@ export const SigninScreen = () => {
     }
 
     useEffect(() => {
+        console.log('redirect:+++++', redirect)
         if (userInfo) {
             history.push(redirect);
         }
