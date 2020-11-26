@@ -1,4 +1,4 @@
-import { userSigninReducer, userSigninInitialState, userSigninInitialStateType } from './reducers/userReducer';
+import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -16,6 +16,7 @@ export interface initialAppStateType {
     productDetailsStore: ProductDetailsInitialStateType,
     cartStore: cartInitailStateType,
     userStore: userSigninInitialStateType,
+    registerStore: userRegisterInitialType,
 }
 
 
@@ -24,6 +25,7 @@ export const initialAppState: initialAppStateType = {
     productDetailsStore: productDetailsInitialState,
     cartStore: cartInitailState,
     userStore: userSigninInitialState,
+    registerStore: userRegisterInitailState,
 }
 
 const reducer = combineReducers({
@@ -31,6 +33,7 @@ const reducer = combineReducers({
     productDetailsStore: productDetailsReducer,
     cartStore: cartReducer,
     userStore: userSigninReducer,
+    registerStore: userRegisterReducer,
 })
 
 

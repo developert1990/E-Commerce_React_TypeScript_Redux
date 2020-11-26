@@ -13,8 +13,7 @@ export const SigninScreen = () => {
     const location = useLocation();
     const history = useHistory();
 
-    const redirect = location.search ? location.search.split("=")[1] : '/';
-    console.log('redirect', redirect)
+    const redirect = location.search ? location.search.split('=')[1] : '/';
     const userSignin = useSelector((state: initialAppStateType) => state.userStore);
     const { userInfo, error, loading } = userSignin;
 
@@ -54,7 +53,7 @@ export const SigninScreen = () => {
                         <label />
                         <div>
                             New customer?{''}
-                            <Link to="/register">Create your account</Link>
+                            <Link to={`/register?redirect=${redirect}`}>Create your account</Link>
                         </div>
                     </div>
                 </div>

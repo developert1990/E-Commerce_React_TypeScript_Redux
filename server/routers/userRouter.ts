@@ -31,6 +31,25 @@ userRouter.post('/signin', expressAsyncHandler(async (req: Request, res: Respons
         }
     }
     res.status(401).send({ message: 'Invalid email or password' });
+}));
+
+userRouter.post('/register', expressAsyncHandler(async (req: Request, res: Response) => {
+    // 새로운 유저의 정보를 만들고 
+    const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 8)
+    });
+    // 그 유저의 정보를 db에 저장한다.
+    const createdUser = await user.save();
+    const typedUser = createdUser as userFromDB;
+    res.send({
+        _id: typedUser._id,
+        name: typedUser.name,
+        email: typedUser.email,
+        isAdmin: typedUser.isAdmin,
+        token: generateToken(typedUser),
+    });
 }))
 
 export default userRouter;

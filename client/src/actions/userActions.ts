@@ -1,3 +1,4 @@
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL } from './../constants/userConstant';
 
 import axios from 'axios';
 import { ThunkDispatch } from 'redux-thunk';
@@ -24,4 +25,23 @@ export const signout = () => (dispatch: ThunkDispatch<any, any, any>) => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('cartItems');
     dispatch({ type: USER_SIGNOUT });
+};
+
+
+export const register = (name: string, email: string, password: string) => async (dispatch: ThunkDispatch<any, any, any>) => {
+    dispatch({ type: USER_REGISTER_REQUEST, payload: { email, password } });
+    try {
+        const { data } = await axios.post('/api/users/register', { name, email, password }); // {name, email, password} 이부분은 fetch에서 body를 주는 부분이다.
+        dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
+        dispatch({ type: USER_SIGNIN_SUCCESS, payload: data })
+        localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+        dispatch({
+            type: USER_REGISTER_FAIL,
+            payload:
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message
+        })
+    }
 }
