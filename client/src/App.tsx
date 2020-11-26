@@ -9,7 +9,8 @@ import { SigninScreen } from './screens/SigninScreen';
 import { RegisterScreen } from './screens/RegisterScreen';
 import { signout } from './actions/userActions';
 import { ShippingAddressScreen } from './screens/ShippingAddressScreen';
-
+import { PaymentMethodScreen } from './screens/PaymentMethodScreen';
+import { PlaceOrderScreen } from './screens/PlaceOrderScreen';
 function App() {
 
   const cart = useSelector((state: initialAppStateType) => state.cartStore);
@@ -21,6 +22,8 @@ function App() {
     e.preventDefault();
     dispatch(signout());
   }
+
+
 
   return (
     <BrowserRouter>
@@ -60,6 +63,8 @@ function App() {
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
             <Route path="/shipping" component={ShippingAddressScreen} />
+            <Route path="/payment" component={PaymentMethodScreen} />
+            <Route path="/placeorder" component={PlaceOrderScreen} />
             <div>
 
             </div>

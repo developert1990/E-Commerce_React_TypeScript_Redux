@@ -1,5 +1,5 @@
 import { saveShippingAddressDataType } from './../actions/cartActions';
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS } from './../constants/cartConstant';
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD } from './../constants/cartConstant';
 import { CartActionType } from './../actions/types.d';
 
 export interface cartItemType {
@@ -12,8 +12,9 @@ export interface cartItemType {
 }
 
 export interface cartInitailStateType {
-    cartItems: cartItemType[],
-    shippingAddress: saveShippingAddressDataType,
+    cartItems: cartItemType[];
+    shippingAddress: saveShippingAddressDataType;
+    paymentMethod: string;
 }
 
 export const cartInitailState: cartInitailStateType = {
@@ -22,6 +23,7 @@ export const cartInitailState: cartInitailStateType = {
         ? JSON.parse(localStorage.getItem("cartItems") as string)
         : [],
     shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
+    paymentMethod: 'PayPal',
 }
 
 
@@ -55,6 +57,11 @@ export const cartReducer = (state = cartInitailState, action: CartActionType) =>
             return {
                 ...state,
                 shippingAddress: action.payload
+            }
+        case CART_SAVE_PAYMENT_METHOD:
+            return {
+                ...state,
+                paymentMethod: action.payload,
             }
 
         default:

@@ -24,6 +24,7 @@ export const signin = (email: string, password: string) => async (dispatch: Thun
 export const signout = () => (dispatch: ThunkDispatch<any, any, any>) => {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('cartItems');
+    localStorage.removeItem('shippingAddress');
     dispatch({ type: USER_SIGNOUT });
 };
 
