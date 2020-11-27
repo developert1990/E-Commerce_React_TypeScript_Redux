@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import userRouter from './routers/userRouter';
 import productRouter from './routers/productRouter';
 import * as dotenv from 'dotenv';
+import orderRouter from './routers/orderRouter';
 
 dotenv.config();
 
@@ -23,6 +24,8 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
 app.use('/api/users/', userRouter);
 // 제품 등록하는 라우터를 연결
 app.use('/api/products', productRouter);
+// 유저가 오더한 것을 등록하는 라우터 연결
+app.use('/api/orders', orderRouter);
 
 
 

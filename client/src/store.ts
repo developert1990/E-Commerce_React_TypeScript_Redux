@@ -1,3 +1,4 @@
+import { orderCreateReducer, orderInitialState, orderIinitialStateType } from './reducers/orderReducers';
 import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
@@ -17,6 +18,7 @@ export interface initialAppStateType {
     cartStore: cartInitailStateType,
     userStore: userSigninInitialStateType,
     registerStore: userRegisterInitialType,
+    orderStore: orderIinitialStateType,
 }
 
 
@@ -26,6 +28,7 @@ export const initialAppState: initialAppStateType = {
     cartStore: cartInitailState,
     userStore: userSigninInitialState,
     registerStore: userRegisterInitailState,
+    orderStore: orderInitialState,
 }
 
 const reducer = combineReducers({
@@ -34,6 +37,7 @@ const reducer = combineReducers({
     cartStore: cartReducer,
     userStore: userSigninReducer,
     registerStore: userRegisterReducer,
+    orderStore: orderCreateReducer,
 })
 
 

@@ -1,14 +1,23 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { initialAppStateType } from '../store';
 import { Link, useHistory } from 'react-router-dom';
+import { createOrder } from '../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../constants/orderConstant';
+import { LoadingBox } from '../components/LoadingBox';
+import { MessageBox } from '../components/MessageBox';
+
 export const PlaceOrderScreen = () => {
     const cart = useSelector((state: initialAppStateType) => state.cartStore);
     const history = useHistory();
+    const dispatch = useDispatch();
     const { cartItems, paymentMethod, shippingAddress } = cart;
     if (!paymentMethod) {
         history.push('/payment')
     }
+    const orderCreate = useSelector((state: initialAppStateType) => state.orderStore);
+    const { loading, success, error, order } = orderCreate;
+
 
     const toPrice = (num: number) => Number(num.toFixed(2)); // 5.123 => "5.12" => 5.12
     let itemsPrice = toPrice(cartItems.reduce((a, c) => a + c.qty * c.price, 0))  // c: current 값을 의미한다
@@ -17,8 +26,15 @@ export const PlaceOrderScreen = () => {
     let totalPrice = itemsPrice + shippingPrice + taxPrice;
 
     const placeOrderHandler = () => {
-
+        dispatch(createOrder({ ...cart, orderItems: cartItems, itemsPrice: itemsPrice, shippingPrice: shippingPrice, shippingAddress: shippingAddress, taxPrice: taxPrice, totalPrice: totalPrice }));
     }
+
+    // useEffect(() => {
+    //     if(success){
+    //         history.push(`/order/${order._id}`);
+    //         dispatch({type:ORDER_CREATE_RESET});
+    //     }
+    // }, [dispatch, history, order, success])
 
     return (
         <div>
@@ -99,6 +115,8 @@ export const PlaceOrderScreen = () => {
                                     Place Order
                                 </button>
                             </li>
+                            {loading && <LoadingBox />}
+                            {error && <MessageBox variant="danger" />}
                         </ul>
                     </div>
                 </div>

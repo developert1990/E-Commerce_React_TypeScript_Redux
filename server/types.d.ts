@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import { Request } from 'express';
 
 export interface userFromDB extends Document {
     _id: string;
@@ -7,4 +8,8 @@ export interface userFromDB extends Document {
     email: string;
     isAdmin: boolean;
     token: () => string;
+}
+
+export interface CustomRequestExtendsUser extends Request {
+    user?: String;
 }
