@@ -24,17 +24,16 @@ export const PlaceOrderScreen = () => {
     let shippingPrice = itemsPrice > 100 ? toPrice(0) : toPrice(10);
     let taxPrice = toPrice(0.15 * itemsPrice);
     let totalPrice = itemsPrice + shippingPrice + taxPrice;
-
     const placeOrderHandler = () => {
         dispatch(createOrder({ ...cart, orderItems: cartItems, itemsPrice: itemsPrice, shippingPrice: shippingPrice, shippingAddress: shippingAddress, taxPrice: taxPrice, totalPrice: totalPrice }));
     }
 
-    // useEffect(() => {
-    //     if(success){
-    //         history.push(`/order/${order._id}`);
-    //         dispatch({type:ORDER_CREATE_RESET});
-    //     }
-    // }, [dispatch, history, order, success])
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order?._id}`);
+            dispatch({ type: ORDER_CREATE_RESET });
+        }
+    }, [dispatch, history, order, success])
 
     return (
         <div>

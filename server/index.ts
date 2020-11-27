@@ -20,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
 });
 
 
+
 // 유저 등록하는 라우터를 연결
 app.use('/api/users/', userRouter);
 // 제품 등록하는 라우터를 연결
@@ -29,7 +30,9 @@ app.use('/api/orders', orderRouter);
 
 
 
-
+app.get('/api/config/paypal', (req: Request, res: Response) => {
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+})
 
 
 app.get('/', (req: Request, res: Response) => {

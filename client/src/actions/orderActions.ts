@@ -1,7 +1,7 @@
 import { saveShippingAddressDataType } from './cartActions';
 import { cartItemType } from './../reducers/cartReducers';
 import { CART_EMPTY } from './../constants/cartConstant';
-import { ORDER_CREATE_REQUEST, ORDER_CREATE_FAIL, ORDER_CREATE_SUCCESS } from './../constants/orderConstant';
+import { ORDER_CREATE_REQUEST, ORDER_CREATE_FAIL, ORDER_CREATE_SUCCESS, ORDER_DETAILS_REQUEST, ORDER_DETAILS_FAIL, ORDER_DETAILS_SUCCESS } from './../constants/orderConstant';
 import { ThunkDispatch } from 'redux-thunk';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ export interface orderItemsType {
     shippingPrice: number;
     taxPrice: number;
     totalPrice: number;
+    _id?: string;
 }
 
 export const createOrder = (order: orderItemsType) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
@@ -34,3 +35,17 @@ export const createOrder = (order: orderItemsType) => async (dispatch: ThunkDisp
         dispatch({ type: ORDER_CREATE_FAIL, payload: error.response && error.response.data.message ? error.response.data.message : error.message });
     }
 }
+
+export const detailsOrder = (orderId: string) => async (dispatch: ThunkDispatch<any, any, any>, getState: () => any) => {
+    dispatch({ type: ORDER_DETAILS_REQUEST, payload: orderId });
+    try {
+        const { userStore: { userInfo } } = getState();
+        const { data } = await axios.get(`/api/orders/${orderId}`, {
+            headers: { Authorization: `Hong ${userInfo.token}` }
+        });
+        dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
+    } catch (error) {
+        const message = error.response && error.response.data.message ? error.response.data.message : error.message;
+        dispatch({ type: ORDER_DETAILS_FAIL, payload: message });
+    }
+} 
