@@ -1,4 +1,4 @@
-import { orderCreateReducer, orderInitialState, orderIinitialStateType, orderDetailsReducer, orderDetailInitailStateType, orderDetailInitialState, orderPayInitialStateType, orderPayInitailState, orderPayReducer } from './reducers/orderReducers';
+import { orderCreateReducer, orderInitialState, orderIinitialStateType, orderDetailsReducer, orderDetailInitailStateType, orderDetailInitialState, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyListInitialStateType, orderMyListInitailState, orderMyListReducer } from './reducers/orderReducers';
 import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
@@ -21,6 +21,7 @@ export interface initialAppStateType {
     orderStore: orderIinitialStateType,
     orderDetailStore: orderDetailInitailStateType,
     orderPayStore: orderPayInitialStateType,
+    orderMyListStore: orderMyListInitialStateType,
 }
 
 
@@ -33,6 +34,7 @@ export const initialAppState: initialAppStateType = {
     orderStore: orderInitialState,
     orderDetailStore: orderDetailInitialState,
     orderPayStore: orderPayInitailState,
+    orderMyListStore: orderMyListInitailState,
 }
 
 const reducer = combineReducers({
@@ -44,6 +46,8 @@ const reducer = combineReducers({
     orderStore: orderCreateReducer,
     orderDetailStore: orderDetailsReducer,
     orderPayStore: orderPayReducer,
+    orderMyListStore: orderMyListReducer,
+
 })
 
 

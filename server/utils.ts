@@ -32,7 +32,8 @@ export const isAuth = (req: CustomRequestExtendsUser, res: Response, next: NextF
             } else {
                 const { _id } = decode as decodeType;
                 req.user = _id;
-                console.log('_id,, verify 에러 발생 안함', _id)
+                console.log('_id, verify 에러 발생 안함', _id);
+
                 next();
             }
         });

@@ -32,3 +32,8 @@ export interface orderPayActionType {
     type: string;
     payload: orderItemsType
 }
+
+export interface orderMyListActionType {
+    type: string;
+    payload: any;
+}

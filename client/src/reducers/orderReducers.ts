@@ -1,8 +1,9 @@
+import { PaymentResultType } from './../../../server/types.d';
 import { orderItemsType } from './../actions/orderActions';
 import { cartItemType } from './cartReducers';
 import { saveShippingAddressDataType } from './../actions/cartActions';
-import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_CREATE_RESET, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL } from './../constants/orderConstant';
-import { orderActionType, orderDetailActionType, orderPayActionType } from './../actions/types.d';
+import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_CREATE_RESET, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL, ORDER_MY_LIST_REQUEST, ORDER_MY_LIST_SUCCESS, ORDER_MY_LIST_FAIL } from './../constants/orderConstant';
+import { orderActionType, orderDetailActionType, orderPayActionType, orderMyListActionType } from './../actions/types.d';
 
 
 export interface orderIinitialStateType {
@@ -149,6 +150,62 @@ export const orderPayReducer = (state = orderPayInitailState, action: orderPayAc
             return { loading: false, order: action.payload }
         case ORDER_PAY_FAIL:
             return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+};
+
+
+
+
+
+
+
+
+export interface DeliveryResultType {
+    deliveredAt: string;
+}
+
+export interface OrdersType {
+    paidAt: string;
+    orderItems: cartItemType[];
+    shippingAddress: saveShippingAddressDataType;
+    paymentMethod: string;
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+    isDelivered: boolean;
+    createdAt: string;
+    isPaid: boolean;
+    _id?: string;
+    updatedAt: string;
+    user: string;
+    paymentResult: PaymentResultType;
+    deliveryResult: DeliveryResultType;
+}
+
+
+export interface orderMyListInitialStateType {
+    loading: boolean,
+    orders: OrdersType[],
+    error: '',
+}
+
+export const orderMyListInitailState: orderMyListInitialStateType = {
+    loading: false,
+    error: '',
+    orders: []
+}
+
+export const orderMyListReducer = (state = orderMyListInitailState, action: orderMyListActionType) => {
+    switch (action.type) {
+        case ORDER_MY_LIST_REQUEST:
+            return { loading: true };
+        case ORDER_MY_LIST_SUCCESS:
+            return { loading: false, orders: action.payload };
+        case ORDER_MY_LIST_FAIL:
+            return { loading: false, error: action.payload };
         default:
             return state;
     }

@@ -12,12 +12,20 @@ interface paramsType {
     id: string;
 }
 
+export interface PayPalPaymentResultType {
+    id: string;
+    status: string;
+    update_time: string;
+    email_address: string;
+}
+
+
 export const OrderScreen = () => {
     const orderDetails = useSelector((state: initialAppStateType) => state.orderDetailStore);
     const payedOrder = useSelector((state: initialAppStateType) => state.orderPayStore);
     const { error: payError, order: payResult, loading: payLoading } = payedOrder;
 
-    console.log('payedOrder', payResult?.data.isPaid);
+    console.log('payedOrder', payResult.data);
     const [sdkReady, setSdkReady] = useState<boolean>(false); // paypal 의 sdk 받아오기위한 hook 이다.
     const { order, loading, error } = orderDetails;
     const dispatch = useDispatch();
@@ -50,13 +58,13 @@ export const OrderScreen = () => {
             }
         }
 
-    }, [orderId, dispatch, order?._id, order?.isPaid, sdkReady])
+    }, [])
 
-    const successPaymentHandler = () => {
+    // 여기서 paymentResult 는 react-paypal-button-v2 에서 자동으로 제공해주는 파라미터 값으로 payment한 결과에 대한 정보를 인자로 준다.
+    const successPaymentHandler = (paymentResult: PayPalPaymentResultType) => {
 
         const orderId = order._id as string;
-        console.log('order:+++', order)
-        dispatch(orderPay(order))
+        dispatch(orderPay(order, paymentResult))
     }
 
     return (
