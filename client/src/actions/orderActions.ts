@@ -48,4 +48,5 @@ export const detailsOrder = (orderId: string) => async (dispatch: ThunkDispatch<
         const message = error.response && error.response.data.message ? error.response.data.message : error.message;
         dispatch({ type: ORDER_DETAILS_FAIL, payload: message });
     }
-} 
+}
+

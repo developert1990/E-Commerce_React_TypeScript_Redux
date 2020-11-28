@@ -25,12 +25,14 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req: CustomRequestExten
             user: req.user, // _id 값이 들어간다
         });
         const createdOrder = await order.save();
+        console.log('createdOrder: ____', createdOrder)
         res.status(201).send({ message: 'New Order Created', order: createdOrder });
     }
 }));
 
 orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Response) => {
     const order = await Order.findById(req.params.id);
+    console.log('order', order)
     if (order) {
         res.send(order);
     } else {

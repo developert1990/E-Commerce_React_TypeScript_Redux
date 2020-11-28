@@ -33,11 +33,11 @@ export const OrderScreen = () => {
             };
             document.body.appendChild(script);
         };
-
-        if (!order._id) {
+        console.log('order', order)
+        if (!order?._id) {
             dispatch(detailsOrder(orderId));
         } else {
-            if (!order.isPaid) {
+            if (!order?.isPaid) {
                 if (!window.paypal) {
                     addPayPalScript();
                 } else {
@@ -46,7 +46,7 @@ export const OrderScreen = () => {
             }
         }
 
-    }, [orderId, dispatch, order?._id, order?.isPaid])
+    }, [orderId, dispatch, order?._id, order?.isPaid, order])
 
     const successPaymentHandler = () => {
 
