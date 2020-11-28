@@ -1,8 +1,8 @@
 import { orderItemsType } from './../actions/orderActions';
 import { cartItemType } from './cartReducers';
 import { saveShippingAddressDataType } from './../actions/cartActions';
-import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_CREATE_RESET, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL } from './../constants/orderConstant';
-import { orderActionType, orderDetailActionType } from './../actions/types.d';
+import { ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_FAIL, ORDER_CREATE_RESET, ORDER_DETAILS_REQUEST, ORDER_DETAILS_SUCCESS, ORDER_DETAILS_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL } from './../constants/orderConstant';
+import { orderActionType, orderDetailActionType, orderPayActionType } from './../actions/types.d';
 
 
 export interface orderIinitialStateType {
@@ -80,6 +80,74 @@ export const orderDetailsReducer = (state = orderDetailInitialState, action: ord
         case ORDER_DETAILS_SUCCESS:
             return { loading: false, order: action.payload };
         case ORDER_DETAILS_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
+
+
+
+export interface orderPayType {
+    message: string,
+    data: {
+        paidAt: string;
+        orderItems: cartItemType[];
+        shippingAddress: saveShippingAddressDataType;
+        paymentMethod: string;
+        itemsPrice: number;
+        shippingPrice: number;
+        taxPrice: number;
+        totalPrice: number;
+        isDelivered: boolean;
+        createdAt: string;
+        isPaid: boolean;
+        _id?: string;
+        updatedAt: string;
+        user: string;
+    }
+}
+
+export interface orderPayInitialStateType {
+    loading: boolean,
+    order: orderPayType,
+    error: '',
+}
+
+export const orderPayInitailState: orderPayInitialStateType = {
+    loading: true,
+    error: '',
+    order: {
+        message: '',
+        data: {
+            createdAt: '',
+            isDelivered: false,
+            isPaid: false,
+            itemsPrice: 0,
+            orderItems: localStorage.getItem("cartItems")
+                ? JSON.parse(localStorage.getItem("cartItems") as string)
+                : [],
+            paidAt: '',
+            paymentMethod: 'PayPal',
+            shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
+            shippingPrice: 0,
+            taxPrice: 0,
+            totalPrice: 0,
+            updatedAt: '',
+            user: '',
+            _id: '',
+        }
+    },
+}
+
+export const orderPayReducer = (state = orderPayInitailState, action: orderPayActionType) => {
+    switch (action.type) {
+        case ORDER_PAY_REQUEST:
+            return { loading: true }
+        case ORDER_PAY_SUCCESS:
+            return { loading: false, order: action.payload }
+        case ORDER_PAY_FAIL:
             return { loading: false, error: action.payload }
         default:
             return state;

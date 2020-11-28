@@ -3,7 +3,7 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { detailsOrder } from '../actions/orderActions';
+import { detailsOrder, orderPay } from '../actions/orderActions';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
@@ -14,6 +14,10 @@ interface paramsType {
 
 export const OrderScreen = () => {
     const orderDetails = useSelector((state: initialAppStateType) => state.orderDetailStore);
+    const payedOrder = useSelector((state: initialAppStateType) => state.orderPayStore);
+    const { error: payError, order: payResult, loading: payLoading } = payedOrder;
+
+    console.log('payedOrder', payResult?.data.isPaid);
     const [sdkReady, setSdkReady] = useState<boolean>(false); // paypal 의 sdk 받아오기위한 hook 이다.
     const { order, loading, error } = orderDetails;
     const dispatch = useDispatch();
@@ -46,10 +50,13 @@ export const OrderScreen = () => {
             }
         }
 
-    }, [orderId, dispatch, order?._id, order?.isPaid, order])
+    }, [orderId, dispatch, order?._id, order?.isPaid, sdkReady])
 
     const successPaymentHandler = () => {
-        // dispatch(orderPay(order?._id))
+
+        const orderId = order._id as string;
+        console.log('order:+++', order)
+        dispatch(orderPay(order))
     }
 
     return (
@@ -82,7 +89,7 @@ export const OrderScreen = () => {
                                             <p>
                                                 <strong>Method:</strong>{order?.paymentMethod} <br />
                                             </p>
-                                            {order?.isPaid ? <MessageBox variant="success">Paid at {order?.isPaid}</MessageBox> :
+                                            {payResult?.data.isPaid ? <MessageBox variant="success">Paid at {payResult?.data.paidAt}</MessageBox> :
                                                 <MessageBox variant="danger">Not Paid</MessageBox>
                                             }
                                         </div>
@@ -140,7 +147,7 @@ export const OrderScreen = () => {
                                             </div>
                                         </li>
                                         {
-                                            !order?.isPaid && (
+                                            !payResult?.data.isPaid && (
                                                 <li>
                                                     {!sdkReady ? <LoadingBox /> : <PayPalButton amount={order?.totalPrice} onSuccess={successPaymentHandler} />}
                                                 </li>

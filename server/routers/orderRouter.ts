@@ -32,7 +32,7 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req: CustomRequestExten
 
 orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Response) => {
     const order = await Order.findById(req.params.id);
-    console.log('order', order)
+    // console.log('order', order)
     if (order) {
         res.send(order);
     } else {
@@ -43,13 +43,14 @@ orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Re
 
 orderRouter.put('/:id/pay', isAuth, expressAsyncHandler(async (req: Request, res: Response) => {
     const order = await Order.findById(req.params.id);
-    const typedOrder = order as OrderType
+    const typedOrder = order as OrderType;
+    console.log('페이버튼 누르고 진행하는 router로 들어옴')
     if (order) {
         typedOrder.isPaid = true;
         typedOrder.paidAt = Date.now();
         typedOrder.paymentResult = { id: req.body.id, status: req.body.status, update_time: req.body.update_time, email_address: req.body.email_address }
         const updatedOrder = await order.save();
-        res.send({ message: 'Order Paid', order: updatedOrder });
+        res.send({ message: 'Order Paid', data: updatedOrder });
     } else {
         res.status(404).send({ message: 'Order Not Found' });
     }

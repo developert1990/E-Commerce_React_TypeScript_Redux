@@ -27,3 +27,8 @@ export interface orderDetailActionType {
     type: string;
     payload: orderItemsType
 }
+
+export interface orderPayActionType {
+    type: string;
+    payload: orderItemsType
+}
