@@ -33,7 +33,7 @@ export const OrderScreen = () => {
             };
             document.body.appendChild(script);
         };
-        console.log('order', order)
+
         if (!order?._id) {
             dispatch(detailsOrder(orderId));
         } else {
@@ -49,7 +49,7 @@ export const OrderScreen = () => {
     }, [orderId, dispatch, order?._id, order?.isPaid, order])
 
     const successPaymentHandler = () => {
-
+        // dispatch(orderPay(order?._id))
     }
 
     return (
