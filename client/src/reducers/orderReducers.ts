@@ -36,6 +36,7 @@ export const orderCreateReducer = (state = orderInitialState, action: orderActio
 }
 
 export interface orderDetailsType {
+    paidAt: string;
     orderItems: cartItemType[];
     shippingAddress: saveShippingAddressDataType;
     paymentMethod: string;
@@ -59,6 +60,7 @@ export const orderDetailInitialState: orderDetailInitailStateType = {
     loading: true,
     error: '',
     order: {
+        paidAt: '',
         orderItems: localStorage.getItem("cartItems")
             ? JSON.parse(localStorage.getItem("cartItems") as string)
             : [],
@@ -91,23 +93,20 @@ export const orderDetailsReducer = (state = orderDetailInitialState, action: ord
 
 
 export interface orderPayType {
-    message: string,
-    data: {
-        paidAt: string;
-        orderItems: cartItemType[];
-        shippingAddress: saveShippingAddressDataType;
-        paymentMethod: string;
-        itemsPrice: number;
-        shippingPrice: number;
-        taxPrice: number;
-        totalPrice: number;
-        isDelivered: boolean;
-        createdAt: string;
-        isPaid: boolean;
-        _id?: string;
-        updatedAt: string;
-        user: string;
-    }
+    paidAt: string;
+    orderItems: cartItemType[];
+    shippingAddress: saveShippingAddressDataType;
+    paymentMethod: string;
+    itemsPrice: number;
+    shippingPrice: number;
+    taxPrice: number;
+    totalPrice: number;
+    isDelivered: boolean;
+    createdAt: string;
+    isPaid: boolean;
+    _id?: string;
+    updatedAt: string;
+    user: string;
 }
 
 export interface orderPayInitialStateType {
@@ -120,25 +119,22 @@ export const orderPayInitailState: orderPayInitialStateType = {
     loading: true,
     error: '',
     order: {
-        message: '',
-        data: {
-            createdAt: '',
-            isDelivered: false,
-            isPaid: false,
-            itemsPrice: 0,
-            orderItems: localStorage.getItem("cartItems")
-                ? JSON.parse(localStorage.getItem("cartItems") as string)
-                : [],
-            paidAt: '',
-            paymentMethod: 'PayPal',
-            shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
-            shippingPrice: 0,
-            taxPrice: 0,
-            totalPrice: 0,
-            updatedAt: '',
-            user: '',
-            _id: '',
-        }
+        createdAt: '',
+        isDelivered: false,
+        isPaid: false,
+        itemsPrice: 0,
+        orderItems: localStorage.getItem("cartItems")
+            ? JSON.parse(localStorage.getItem("cartItems") as string)
+            : [],
+        paidAt: '',
+        paymentMethod: 'PayPal',
+        shippingAddress: localStorage.getItem("shippingAddress") ? JSON.parse(localStorage.getItem("shippingAddress") as string) : {},
+        shippingPrice: 0,
+        taxPrice: 0,
+        totalPrice: 0,
+        updatedAt: '',
+        user: '',
+        _id: '',
     },
 }
 

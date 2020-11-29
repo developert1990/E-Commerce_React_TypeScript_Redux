@@ -3,7 +3,7 @@ import { orderDetailsType } from './../reducers/orderReducers';
 import { saveShippingAddressDataType } from './cartActions';
 import { cartItemType } from './../reducers/cartReducers';
 import { CART_EMPTY } from './../constants/cartConstant';
-import { ORDER_CREATE_REQUEST, ORDER_CREATE_FAIL, ORDER_CREATE_SUCCESS, ORDER_DETAILS_REQUEST, ORDER_DETAILS_FAIL, ORDER_DETAILS_SUCCESS, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_MY_LIST_REQUEST, ORDER_MY_LIST_FAIL, ORDER_MY_LIST_SUCCESS } from './../constants/orderConstant';
+import { ORDER_CREATE_REQUEST, ORDER_CREATE_FAIL, ORDER_CREATE_SUCCESS, ORDER_DETAILS_REQUEST, ORDER_DETAILS_FAIL, ORDER_DETAILS_SUCCESS, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_MY_LIST_REQUEST, ORDER_MY_LIST_FAIL, ORDER_MY_LIST_SUCCESS, ORDER_PAY_FAIL } from './../constants/orderConstant';
 import { ThunkDispatch } from 'redux-thunk';
 import axios from 'axios';
 
@@ -44,10 +44,10 @@ export const detailsOrder = (orderId: string) => async (dispatch: ThunkDispatch<
     dispatch({ type: ORDER_DETAILS_REQUEST, payload: orderId });
     try {
         const { userStore: { userInfo } } = getState();
-        console.log('디테일 뽑는 action실행됨')
         const { data } = await axios.get(`/api/orders/detail/${orderId}`, {
             headers: { Authorization: `Hong ${userInfo.token}` }
         });
+        console.log('디테일 data', data)
         dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data });
     } catch (error) {
         const message = error.response && error.response.data.message ? error.response.data.message : error.message;
@@ -67,9 +67,11 @@ export const orderPay = (order: orderDetailsType, paymentResult: PayPalPaymentRe
         });
         console.log('Pay버튼누르고 받아온 data: _____', data);
         dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
+        // 페이 한다음 detail을 다시 받아온다.
+        dispatch(detailsOrder(order._id as string));
     } catch (error) {
         const message = error.response && error.response.data.message ? error.response.data.message : error.message;
-        dispatch({ type: ORDER_DETAILS_FAIL, payload: message });
+        dispatch({ type: ORDER_PAY_FAIL, payload: message });
     }
 }
 

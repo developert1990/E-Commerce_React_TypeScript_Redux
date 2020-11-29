@@ -1,5 +1,5 @@
 import { orderCreateReducer, orderInitialState, orderIinitialStateType, orderDetailsReducer, orderDetailInitailStateType, orderDetailInitialState, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyListInitialStateType, orderMyListInitailState, orderMyListReducer } from './reducers/orderReducers';
-import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType } from './reducers/userReducer';
+import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateReducer, userProfileUpdateInitialState, userProfileUpdateInitialStateType } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
 import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -22,6 +22,7 @@ export interface initialAppStateType {
     orderDetailStore: orderDetailInitailStateType,
     orderPayStore: orderPayInitialStateType,
     orderMyListStore: orderMyListInitialStateType,
+    userProfileUpdateStore: userProfileUpdateInitialStateType
 }
 
 
@@ -35,6 +36,7 @@ export const initialAppState: initialAppStateType = {
     orderDetailStore: orderDetailInitialState,
     orderPayStore: orderPayInitailState,
     orderMyListStore: orderMyListInitailState,
+    userProfileUpdateStore: userProfileUpdateInitialState,
 }
 
 const reducer = combineReducers({
@@ -47,6 +49,7 @@ const reducer = combineReducers({
     orderDetailStore: orderDetailsReducer,
     orderPayStore: orderPayReducer,
     orderMyListStore: orderMyListReducer,
+    userProfileUpdateStore: userProfileUpdateReducer, // 강의에서 details라고 이름 지음
 
 })
 

@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import User from '../models/userModel';
 import expressAsyncHandler from 'express-async-handler'; // express에서 비동기식으로 에러 헨들링을 하기 위한 라이브러리 이다.
 import { userFromDB } from '../types';
-import { generateToken } from '../utils';
+import { generateToken, isAuth } from '../utils';
 
 const userRouter = express.Router();
 
@@ -50,6 +50,38 @@ userRouter.post('/register', expressAsyncHandler(async (req: Request, res: Respo
         isAdmin: typedUser.isAdmin,
         token: generateToken(typedUser),
     });
-}))
+}));
+
+
+
+// user profile Update
+userRouter.put('/:id', isAuth, expressAsyncHandler(async (req: Request, res: Response) => {
+    console.log('req.body', req.body)
+    console.log('req.params.id', req.params.id)
+    const user = await User.findById(req.params.id);
+    const typedUser = user as userFromDB;
+    if (user) {
+
+        typedUser.name = req.body.name || typedUser.name;
+        typedUser.email = req.body.email || typedUser.email;
+        if (req.body.password) {
+            typedUser.password = bcrypt.hashSync(req.body.password, 8);
+        }
+        const updatedUser = await user.save();
+        const typedUpdatedUser = updatedUser as userFromDB;
+        res.send({
+            _id: typedUser._id,
+            name: typedUser.name,
+            email: typedUser.email,
+            isAdmin: typedUser.isAdmin,
+            token: generateToken(typedUpdatedUser),
+
+        })
+        console.log('업데이트 성공함')
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+}));
+
 
 export default userRouter;

@@ -1,3 +1,4 @@
+import { orderDetailsType, orderPayType } from './../reducers/orderReducers';
 import { userType } from './../reducers/userReducer';
 import { cartItemType } from './../reducers/cartReducers';
 import { ProductType } from './../types.d';
@@ -18,6 +19,11 @@ export interface userActionType {
     payload: userType | string;
 }
 
+export interface userProfileUpdateActionType {
+    type: string;
+    payload: any;
+}
+
 export interface orderActionType {
     type: string;
     payload: orderItemsType
@@ -25,12 +31,12 @@ export interface orderActionType {
 
 export interface orderDetailActionType {
     type: string;
-    payload: orderItemsType
+    payload: orderDetailsType;
 }
 
 export interface orderPayActionType {
     type: string;
-    payload: orderItemsType
+    payload: orderPayType
 }
 
 export interface orderMyListActionType {
