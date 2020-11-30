@@ -14,6 +14,11 @@ import { PlaceOrderScreen } from './screens/PlaceOrderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { OrderHistoryScreen } from './screens/OrderHistoryScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+import { PrivateRoute } from './components/PrivateRoute';
+import { AdminRoute } from './components/AdminRoute';
+import { ProductListScreen } from './screens/ProductListScreen';
+
+
 function App() {
 
   const cart = useSelector((state: initialAppStateType) => state.cartStore);
@@ -65,11 +70,34 @@ function App() {
                   )
               }
 
+              {/* Admin 계정만 사용할수 있음 */}
+              {
+                userInfo && userInfo.isAdmin && (
+                  <div className="dropdown">
+                    <Link to="#admin">Admin {''} <i className="fa fa-caret-down"></i></Link>
+                    <ul className="dropdown-content">
+                      <li>
+                        <Link to="/dashboard">Dashboard</Link>
+                      </li>
+                      <li>
+                        <Link to="/productList">Products</Link>
+                      </li>
+                      <li>
+                        <Link to="/orderList">Orders</Link>
+                      </li>
+                      <li>
+                        <Link to="/userList">Users</Link>
+                      </li>
+                    </ul>
+                  </div>
+                )
+              }
+
             </div>
           </header>
           <main>
             <Route path="/cart/:id?" component={CartScreen} />
-            <Route path="/product/:id" component={ProductScreen} />
+            <Route exact path="/product/:id" component={ProductScreen} />
             <Route exact path="/" component={HomeScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />
@@ -78,7 +106,8 @@ function App() {
             <Route path="/placeorder" component={PlaceOrderScreen} />
             <Route path="/order/:id" component={OrderScreen} />
             <Route path="/orderhistory" component={OrderHistoryScreen} />
-            <Route path="/profile" component={ProfileScreen} />
+            <PrivateRoute path="/profile" component={ProfileScreen} />
+            <AdminRoute path="/productList" component={ProductListScreen} />
             <div>
 
             </div>

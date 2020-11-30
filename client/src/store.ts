@@ -1,7 +1,7 @@
 import { orderCreateReducer, orderInitialState, orderIinitialStateType, orderDetailsReducer, orderDetailInitailStateType, orderDetailInitialState, orderPayInitialStateType, orderPayInitailState, orderPayReducer, orderMyListInitialStateType, orderMyListInitailState, orderMyListReducer } from './reducers/orderReducers';
 import { userSigninReducer, userSigninInitialState, userSigninInitialStateType, userRegisterReducer, userRegisterInitailState, userRegisterInitialType, userProfileUpdateReducer, userProfileUpdateInitialState, userProfileUpdateInitialStateType } from './reducers/userReducer';
 import { cartReducer, cartInitailState, cartInitailStateType } from './reducers/cartReducers';
-import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType } from './reducers/productReducers';
+import { ProductListInitialStateType, productListReducer, productListInitialState, productDetailsReducer, productDetailsInitialState, ProductDetailsInitialStateType, productCreateReducer, productCreateInitialState, productCreateInitialStateType } from './reducers/productReducers';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -22,7 +22,8 @@ export interface initialAppStateType {
     orderDetailStore: orderDetailInitailStateType,
     orderPayStore: orderPayInitialStateType,
     orderMyListStore: orderMyListInitialStateType,
-    userProfileUpdateStore: userProfileUpdateInitialStateType
+    userProfileUpdateStore: userProfileUpdateInitialStateType,
+    productCreateStore: productCreateInitialStateType,
 }
 
 
@@ -37,6 +38,7 @@ export const initialAppState: initialAppStateType = {
     orderPayStore: orderPayInitailState,
     orderMyListStore: orderMyListInitailState,
     userProfileUpdateStore: userProfileUpdateInitialState,
+    productCreateStore: productCreateInitialState,
 }
 
 const reducer = combineReducers({
@@ -50,6 +52,7 @@ const reducer = combineReducers({
     orderPayStore: orderPayReducer,
     orderMyListStore: orderMyListReducer,
     userProfileUpdateStore: userProfileUpdateReducer, // 강의에서 details라고 이름 지음
+    productCreateStore: productCreateReducer,
 
 })
 
