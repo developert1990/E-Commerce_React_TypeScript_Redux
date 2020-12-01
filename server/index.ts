@@ -5,12 +5,16 @@ import userRouter from './routers/userRouter';
 import productRouter from './routers/productRouter';
 import * as dotenv from 'dotenv';
 import orderRouter from './routers/orderRouter';
+import uploadRouter from './routers/uploadRouter';
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// 이렇게 미들웨어로 public 폴더를 정적으로 만들어줘야 외부에서 로컬호스트의 이 public 폴더로 접속을 할 수가 있다.
+app.use(express.static("public"));
 
 const PORT = 9001;
 mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
@@ -20,6 +24,8 @@ mongoose.connect(process.env.MONGODB_URL || 'mongodb://localhost/amazona', {
 });
 
 
+// 제품 사진 upload
+app.use('/api/uploads', uploadRouter);
 
 // 유저 등록하는 라우터를 연결
 app.use('/api/users/', userRouter);
@@ -48,3 +54,4 @@ app.use((err: ErrorEvent, req: Request, res: Response, next: NextFunction) => {
 app.listen(process.env.PORT || 9001, () => {
     console.log(`Server is running at ${PORT}`)
 });
+

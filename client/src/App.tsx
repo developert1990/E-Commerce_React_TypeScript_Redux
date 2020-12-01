@@ -17,6 +17,7 @@ import { ProfileScreen } from './screens/ProfileScreen';
 import { PrivateRoute } from './components/PrivateRoute';
 import { AdminRoute } from './components/AdminRoute';
 import { ProductListScreen } from './screens/ProductListScreen';
+import { ProductEditScreen } from './screens/ProductEditScreen';
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
           <main>
             <Route path="/cart/:id?" component={CartScreen} />
             <Route exact path="/product/:id" component={ProductScreen} />
+            <Route exact path="/product/:id/edit" component={ProductEditScreen} />
             <Route exact path="/" component={HomeScreen} />
             <Route path="/signin" component={SigninScreen} />
             <Route path="/register" component={RegisterScreen} />

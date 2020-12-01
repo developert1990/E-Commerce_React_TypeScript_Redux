@@ -10,11 +10,6 @@ export interface userFromDB extends Document {
     token: () => string;
 }
 
-export interface customRequestUserType {
-    user: {
-        isAdmin: boolean
-    }
-}
 
 export interface CustomRequestExtendsUser extends Request {
     user?: String | customRequestUserType;

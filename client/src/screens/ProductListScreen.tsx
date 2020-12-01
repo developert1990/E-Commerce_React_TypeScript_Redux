@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { LoadingBox } from '../components/LoadingBox';
 import { MessageBox } from '../components/MessageBox';
 import { initialAppStateType } from '../store';
-import { createProduct, listProducts } from '../actions/productActions';
+import { createProduct, deleteProduct, listProducts } from '../actions/productActions';
 import { ProductType } from '../types';
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
+import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from '../constants/productConstants';
 
 interface adminProductListType {
     _id: string;
@@ -30,17 +30,26 @@ export const ProductListScreen = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
+
+    const productDeleteStoreInfo = useSelector((state: initialAppStateType) => state.productDeleteStore);
+    const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDeleteStoreInfo;
+
+
     useEffect(() => {
         if (successCreate) {
             dispatch({ type: PRODUCT_CREATE_RESET });
             history.push(`/product/${createdProduct._id}/edit`);
         }
+        if (successDelete) {
+            dispatch({ type: PRODUCT_DELETE_RESET })
+        }
         dispatch(listProducts())
-    }, [createdProduct, dispatch, history, successCreate]);
+    }, [createdProduct, dispatch, history, successCreate, successDelete]);
+
 
 
     const deleteHandler = (product: ProductType) => {
-
+        dispatch(deleteProduct(product));
     }
 
     const createHandler = () => {
@@ -53,6 +62,9 @@ export const ProductListScreen = () => {
                 <h1>Products</h1>
                 <button type="button" className="primary" onClick={createHandler}>Create Product</button>
             </div>
+            {loadingDelete && <LoadingBox />}
+            {errorDelete && <MessageBox variant="danger">{errorDelete}</MessageBox>}
+
             {loadingCreate && <LoadingBox />}
             {errorCreate && <MessageBox variant="danger">{errorCreate}</MessageBox>}
             {
